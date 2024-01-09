@@ -1,0 +1,4 @@
+.vscode/*
+/build/*
+/scripts/*
+!/scripts/calib_aruco.sh
