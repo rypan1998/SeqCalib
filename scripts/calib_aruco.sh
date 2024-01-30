@@ -14,7 +14,7 @@ cp -r ./$img_idx ./$RESULT/color
 colmap feature_extractor \
     --database_path ./$RESULT/database.db \
     --image_path ./$img_idx\
-    --ImageReader.camera_model SIMPLE_PINHOLE
+    --ImageReader.camera_model OPENCV
 
 colmap exhaustive_matcher \
     --database_path ./$RESULT/database.db
