@@ -1,43 +1,42 @@
 #!/bin/bash
-DATASET_PATH=../data
+RESULT=result
 CODE_PATH=..
-groupNum=10
+groupNum=119
 groupStart=0
-cameraNum=60
+cameraNum=8
 cameraStart=0
 img_idx=0
 
-# 步骤一
+# 步骤 1
 echo "----- step1: construct colmap database +++++"
-mkdir ./$PROJECT_NAME
-cp -r $DATASET_PATH/$img_idx ./$PROJECT_NAME/color
-echo ${DATASET_PATH}
+mkdir ./$RESULT
+cp -r ./$img_idx ./$RESULT/color
 colmap feature_extractor \
-    --database_path $DATASET_PATH/$PROJECT_NAME/database.db \
-    --image_path $DATASET_PATH/$img_idx\
+    --database_path ./$RESULT/database.db \
+    --image_path ./$img_idx\
     --ImageReader.camera_model SIMPLE_PINHOLE
 
 colmap exhaustive_matcher \
-    --database_path $DATASET_PATH/$PROJECT_NAME/database.db
+    --database_path ./$RESULT/database.db
 
-#步骤2
+# 步骤 2
 echo "----- step2: generate random 3D points to database +++++"
 ${CODE_PATH}/build/Extract \
     --cam_num $cameraNum \
     --cam_start $cameraStart \
     --group_num $groupNum \
     --group_start $groupStart \
-    --image_path $DATASET_PATH/%d/%04d.jpg \
-    --project_path $DATASET_PATH/$PROJECT_NAME \
+    --image_path ./%d/%04d.png \
+    --project_path ./$RESULT \
     --is_aruco 1 \
     --max_points 21000 \
     --pixel_error 1 \
     --track_length 7 20 \
     --axis_range -500 500 -500 500 0 1000
 
-# 步骤3
+# 步骤 3
 echo "----- step3: Construction +++++"
-DATASET_PATH="${DATASET_PATH}/$PROJECT_NAME"
+DATASET_PATH="./$RESULT"
 
 echo "----- step3.1: matches_importer +++++"
 colmap matches_importer --database_path $DATASET_PATH/database.db \

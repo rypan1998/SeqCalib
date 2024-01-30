@@ -18,7 +18,7 @@ endif()
 include_directories("/usr/include/eigen3")
 
 # OpenCV: change path as you need!
-set(OpenCV_DIR "/usr/local/opencv420/lib/cmake/opencv4")
+# set(OpenCV_DIR "/usr/local/opencv420/lib/cmake/opencv4")
 FIND_PACKAGE(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 

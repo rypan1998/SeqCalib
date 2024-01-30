@@ -4,10 +4,10 @@
 /**
  * @brief 提取每组图像的 ArUco 角点坐标，并建立匹配关系
  * 
- * @param image_path 图像路径，%d/%04d.jpg 格式
+ * @param image_path 图像路径，%d/%04d.jpg or png 格式
  * @param group_num 图像组数
  * @param cam_num 相机数量
- * @param jpg2Cam 图像名称和相机 ID 的对应关系，比如 0000.jpg 对应 1 号相机
+ * @param jpg2Cam 图像名称和相机 ID 的对应关系，比如 0000.jpg or png 对应 1 号相机
  * @param cam_start 相机 ID 的起始基准
  * @param group_start 图像组数的起始基准
  */
@@ -52,8 +52,8 @@ void Matcher::Match(const std::string &image_path, int group_num, int cam_num,
 
                     // 3. 保存结果
                     // char cam_char[50];
-                    // sprintf(cam_char, "%04d.jpg", cam_id);
-                    boost::format fmt("%04d.jpg");
+                    // sprintf(cam_char, "%04d.png", cam_id);
+                    boost::format fmt("%04d.png"); // ! change this as you need !
                     int real_cam_id = jpg2Cam[(fmt % cam_id).str()];  // 查找真实图像的视角id
                     for (int cnt = 0; cnt < marker_ids.size(); ++cnt) {
                         m_match_data[group_id * markers_num + marker_ids[cnt]].FillData(
@@ -65,15 +65,15 @@ void Matcher::Match(const std::string &image_path, int group_num, int cam_num,
     }
 
     // ! Log File
-    // ofstream fs("./log.txt");
-    // for (auto i : m_match_data) {
-    //     for (auto j : i.pixel_points) {
-    //         fs << "(" << j.first << ", " << j.second << ")"
-    //         << " | ";
-    //     }
-    //     fs << endl;
-    // }
-    // fs.close();
+    ofstream fs("./log.txt");
+    for (auto i : m_match_data) {
+        for (auto j : i.pixel_points) {
+            fs << "(" << j.first << ", " << j.second << ")"
+            << " | ";
+        }
+        fs << endl;
+    }
+    fs.close();
 }
 
 void CreateIdMap(const std::string &db_path, std::unordered_map<std::string, int> &cam_id,

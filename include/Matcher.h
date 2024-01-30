@@ -56,7 +56,10 @@ public:
     
     void Match(const std::string &image_path, int group_num, int view_num, unordered_map<string, int>& jpg2Cam, int cam_start, int group_start);
 
-    void generateRandomPoints(const string& xmlPath, int cameraNumber, int maxPoints, vector<vector<int>> boxSize,vector<int> trackRange, int noise2D, bool has_circle);
+    void generateRandomPoints(const string &xmlPath, int cameraNumber, int maxPoints,
+                                   vector<vector<int>> boxSize, vector<int> trackRange, int noise2D,
+                                   bool has_circle, bool is_track_exp);
+                                   
     virtual ~Matcher() {};
 };
 

@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
         "group_num", po::value<int>(&group_num), "group numbers.")(
         "cam_start", po::value<int>(&cam_start), "camera index start.")(
         "group_start", po::value<int>(&group_start), "group index start.")(
-        "image_path", po::value<string>(&image_path), "image path, end with %04d.jpg")(
+        "image_path", po::value<string>(&image_path), "image path, end with %04d.jpg or png")(
         "project_path", po::value<string>(&project_path), "colmap project directory path");
 
     bool is_aruco; // 使用随机三维点 or 进行 ArUco 检测
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     string database_path(project_path + "/database.db");
     CreateIdMap(database_path, id_map, name_map);
 
-    if (is_aruco) {
+    if (is_aruco) { // * Seq Calib
         cout << "2. Match(ArUco)................" << endl;
         matcherObj->Match(image_path, group_num, cam_num, id_map, cam_start, group_start);
     } else {
